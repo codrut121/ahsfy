@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: creare-site-ahsfy  # dacă branch-ul tău principal e "ahsfy"
+  branch: creare-site-ahsfy 
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
