@@ -1,0 +1,20 @@
+backend:
+  name: git-gateway
+  branch: ahsfy  # dacă branch-ul tău principal e "ahsfy"
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "produse"
+    label: "Produse"
+    folder: "produse"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nume", name: "nume", widget: "string" }
+      - { label: "Descriere", name: "descriere", widget: "text" }
+      - { label: "Preț", name: "pret", widget: "number" }
+      - { label: "Preț redus", name: "pret_redus", widget: "number", required: false }
+      - { label: "Stoc", name: "stoc", widget: "number" }
+      - { label: "Imagine", name: "imagine", widget: "image" }
