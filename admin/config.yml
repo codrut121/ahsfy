@@ -1,6 +1,8 @@
 backend:
   name: git-gateway
   branch: creare-site-ahsfy
+  identity_url: https://ahsfymagazin.netlify.app/.netlify/identity
+  gateway_url: https://ahsfymagazin.netlify.app/.netlify/git
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
@@ -19,3 +21,4 @@ collections:
       - { label: "Descriere", name: "description", widget: "text" }
       - { label: "Preț", name: "price", widget: "number" }
       - { label: "Imagine", name: "image", widget: "image" }
+
