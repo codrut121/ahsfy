@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin - Netlify CMS</title>
+  <title>Netlify Identity Widget</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
   <h1>Admin Login</h1>
-
-  <div id="login"></div>
+  <button id="login-button">Login / Sign Up</button>
 
   <script>
     if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', user => {
-        if (!user) {
-          window.netlifyIdentity.open();
-        }
-      });
-      window.netlifyIdentity.on('login', () => {
-        document.location.href = '/admin/';
-      });
       window.netlifyIdentity.init();
+
+      document.getElementById('login-button').addEventListener('click', () => {
+        window.netlifyIdentity.open();
+      });
+
+      window.netlifyIdentity.on('login', user => {
+        console.log('Logged in:', user);
+        window.location.href = '/admin/';
+      });
     } else {
       console.error('Netlify Identity Widget not loaded');
     }
