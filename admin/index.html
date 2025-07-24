@@ -11,11 +11,10 @@
   <div id="login"></div>
 
   <script>
-    // Initialize Netlify Identity
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on('init', user => {
         if (!user) {
-          window.netlifyIdentity.open('login');
+          window.netlifyIdentity.open();
         }
       });
       window.netlifyIdentity.on('login', () => {
