@@ -1,0 +1,15 @@
+backend:
+  name: git-gateway
+  branch: creare-site-ahsfy  # pune numele branch-ului tău aici
+
+media_folder: "static/img"
+public_folder: "/img"
+
+collections:
+  - name: "products"
+    label: "Produse"
+    folder: "content/products"
+    create: true
+    fields:
+      - { label: "Titlu", name: "title", widget: "string" }
+      - { label: "Descriere", name: "description", widget: "text" }
