@@ -1,24 +1,15 @@
 backend:
   name: git-gateway
-  branch: creare-site-ahsfy
-  identity_url: https://ahsfymagazin.netlify.app/.netlify/identity
-  gateway_url: https://ahsfymagazin.netlify.app/.netlify/git
+  branch: creare-site-ahsfy  # pune numele branch-ului tău aici
 
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
-
-site_url: https://ahsfymagazin.netlify.app
-display_url: https://ahsfymagazin.netlify.app
+media_folder: "static/img"
+public_folder: "/img"
 
 collections:
-  - name: "produse"
+  - name: "products"
     label: "Produse"
-    folder: "content/produse"
+    folder: "content/products"
     create: true
-    slug: "{{slug}}"
     fields:
       - { label: "Titlu", name: "title", widget: "string" }
       - { label: "Descriere", name: "description", widget: "text" }
-      - { label: "Preț", name: "price", widget: "number" }
-      - { label: "Imagine", name: "image", widget: "image" }
-
