@@ -1,10 +1,30 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Content Manager</title>
-  </head>
-  <body>
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin - Netlify CMS</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <h1>Admin Login</h1>
+
+  <div id="login"></div>
+
+  <script>
+    // Initialize Netlify Identity
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', user => {
+        if (!user) {
+          window.netlifyIdentity.open('login');
+        }
+      });
+      window.netlifyIdentity.on('login', () => {
+        document.location.href = '/admin/';
+      });
+      window.netlifyIdentity.init();
+    } else {
+      console.error('Netlify Identity Widget not loaded');
+    }
+  </script>
+</body>
 </html>
