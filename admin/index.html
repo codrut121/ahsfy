@@ -1,10 +1,36 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Content Manager</title>
-  </head>
-  <body>
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin - Netlify CMS</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <h1>Admin Login</h1>
+
+  <script>
+    // Inițializează Netlify Identity Widget
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          // Dacă nu e user logat, încearcă să folosești tokenul de invitație din URL
+          const urlParams = new URLSearchParams(window.location.hash.replace("#", "?"));
+          const inviteToken = urlParams.get("invite_token");
+          if (inviteToken) {
+            window.netlifyIdentity.open("signup");
+          } else {
+            window.netlifyIdentity.open("login");
+          }
+        }
+      });
+
+      // După login redirecționează către interfața Netlify CMS
+      window.netlifyIdentity.on("login", () => {
+        document.location.href = "/admin/index.html";
+      });
+
+      window.netlifyIdentity.init();
+    }
+  </script>
+</body>
 </html>
