@@ -2,52 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin - Netlify CMS</title>
+  <title>Admin Login - Netlify Identity</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 2rem;
+      padding: 2rem;
       background: #f5f5f5;
+    }
+    #netlify-identity-widget {
+      max-width: 400px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body>
-  <h1>Admin Login</h1>
+
+  <h1>Login Admin AHSFY</h1>
+
   <div id="netlify-identity-widget"></div>
 
   <script>
     if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          // Parsează tokenii din URL (hash)
-          const urlParams = new URLSearchParams(window.location.hash.replace("#", "?"));
-          const inviteToken = urlParams.get("invite_token");
-          const recoveryToken = urlParams.get("recovery_token");
-
-          if (inviteToken) {
-            window.netlifyIdentity.open("signup");
-          } else if (recoveryToken) {
-            window.netlifyIdentity.open("recovery");
-          } else {
-            window.netlifyIdentity.open("login");
-          }
-        } else {
-          // Dacă e user logat deja, redirecționează la admin CMS
-          document.location.href = "/admin/index.html";
-        }
-      });
-
-      window.netlifyIdentity.on("login", () => {
-        document.location.href = "/admin/index.html";
-      });
-
       window.netlifyIdentity.init();
+
+      // Deschide automat widget-ul la pagină pentru login
+      window.netlifyIdentity.open('login');
+
+      // Poți asculta evenimentele widget-ului, de ex:
+      window.netlifyIdentity.on('login', user => {
+        console.log('Utilizator logat:', user);
+        window.location.href = '/admin';  // redirecționează după login, modifică după cum vrei
+      });
+
+      window.netlifyIdentity.on('logout', () => {
+        console.log('Utilizator delogat');
+        window.location.href = '/';
+      });
     } else {
-      console.error("Netlify Identity Widget nu este încărcat!");
+      console.error('Netlify Identity Widget nu este încărcat!');
     }
   </script>
+  
 </body>
 </html>
-
 
