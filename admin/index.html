@@ -9,28 +9,36 @@
   <h1>Admin Login</h1>
 
   <script>
-    // Inițializează Netlify Identity Widget
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", user => {
         if (!user) {
-          // Dacă nu e user logat, încearcă să folosești tokenul de invitație din URL
+          // Parsează tokenii din URL (hash)
           const urlParams = new URLSearchParams(window.location.hash.replace("#", "?"));
           const inviteToken = urlParams.get("invite_token");
+          const recoveryToken = urlParams.get("recovery_token");
+
           if (inviteToken) {
             window.netlifyIdentity.open("signup");
+          } else if (recoveryToken) {
+            window.netlifyIdentity.open("recovery");
           } else {
             window.netlifyIdentity.open("login");
           }
+        } else {
+          // Dacă e user logat deja, redirecționează la admin CMS
+          document.location.href = "/admin/index.html";
         }
       });
 
-      // După login redirecționează către interfața Netlify CMS
       window.netlifyIdentity.on("login", () => {
         document.location.href = "/admin/index.html";
       });
 
       window.netlifyIdentity.init();
+    } else {
+      console.error("Netlify Identity Widget nu este încărcat!");
     }
   </script>
 </body>
 </html>
+
