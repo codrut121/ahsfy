@@ -1,127 +1,51 @@
-<!DOCTYPE html>
-<html lang="ro">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ahsfy - Magazin de Bricolaj, Construcții și Grădinărit</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="utf-8" />
+  <title>Netlify Identity</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo">
-                <a href="index.html">ahsfy</a>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#">Construcții</a></li>
-                    <li><a href="#">Unelte</a></li>
-                    <li><a href="#">Grădină</a></li>
-                    <li><a href="#">Decorațiuni</a></li>
-                    <li><a href="#">Baie</a></li>
-                    <li><a href="#">Bucătărie</a></li>
-                </ul>
-            </nav>
-            <div class="header-icons">
-                <a href="#" aria-label="Contul Meu"><img src="images/user.svg" alt="Contul Meu"></a>
-                <a href="#" aria-label="Coș de Cumpărături"><img src="images/cart.svg" alt="Coș de Cumpărături"></a>
-                <a href="#" aria-label="Lista de Favorite"><img src="images/heart.svg" alt="Lista de Favorite"></a>
-            </div>
-        </div>
-        <div class="search-bar">
-            <input type="text" placeholder="Caută produse...">
-            <button type="submit">Caută</button>
-        </div>
-    </header>
+  <h1>Netlify Identity</h1>
+  <div id="netlify-identity-widget"></div>
 
-    <main>
-        <section class="hero-banner">
-            <img src="images/banner.jpg" alt="Banner principal cu oferte">
-        </section>
-
-        <section class="categories">
-            <h2>Categorii Principale</h2>
-            <div class="category-grid">
-                <div class="category-item">
-                    <img src="images/cat-constructii.jpg" alt="Construcții">
-                    <h3>Construcții</h3>
-                </div>
-                <div class="category-item">
-                    <img src="images/cat-unelte.jpg" alt="Unelte">
-                    <h3>Unelte</h3>
-                </div>
-                <div class="category-item">
-                    <img src="images/cat-gradina.jpg" alt="Grădină">
-                    <h3>Grădină</h3>
-                </div>
-                <div class="category-item">
-                    <img src="images/cat-decoratiuni.jpg" alt="Decorațiuni">
-                    <h3>Decorațiuni</h3>
-                </div>
-                <div class="category-item">
-                    <img src="images/cat-baie.jpg" alt="Baie">
-                    <h3>Baie</h3>
-                </div>
-                <div class="category-item">
-                    <img src="images/cat-bucatarie.jpg" alt="Bucătărie">
-                    <h3>Bucătărie</h3>
-                </div>
-            </div>
-        </section>
-
-        <section class="recommendations">
-            <h2>Recomandările ahsfy</h2>
-            <div class="product-grid">
-                <!-- Produsele vor fi adăugate aici -->
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-column">
-                <h3>Linkuri Utile</h3>
-                <ul>
-                    <li><a href="#">Despre noi</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Termeni și Condiții</a></li>
-                    <li><a href="#">Politica de confidențialitate</a></li>
-                    <li><a href="#">ANPC</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Contact</h3>
-                <p>Telefon: 0123 456 789</p>
-                <p>Email: contact@ahsfy.ro</p>
-            </div>
-            <div class="footer-column">
-                <h3>Social Media</h3>
-                <div class="social-icons">
-                    <a href="#" aria-label="Facebook"><img src="images/facebook.svg" alt="Facebook"></a>
-                    <a href="#" aria-label="Instagram"><img src="images/instagram.svg" alt="Instagram"></a>
-                    <a href="#" aria-label="YouTube"><img src="images/youtube.svg" alt="YouTube"></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/main.js"></script>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  const params = new URLSearchParams(window.location.hash.slice(1));
-
-  if (params.has("confirmation_token") || params.has("invite_token") || params.has("recovery_token")) {
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
     if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
+      const netlifyIdentity = window.netlifyIdentity;
+
+      netlifyIdentity.on('init', user => {
         if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            window.location.href = "/admin/";
-          });
+          // Dacă nu e user logat, deschide widget-ul de login
+          netlifyIdentity.open();
         }
       });
-      window.netlifyIdentity.init();
+
+      netlifyIdentity.on('login', user => {
+        // După login, du-te la /admin
+        document.location.href = '/admin/';
+      });
+
+      netlifyIdentity.on('logout', () => {
+        // După logout, du-te la homepage
+        document.location.href = '/';
+      });
+
+      // Inițializează widget-ul Netlify Identity
+      netlifyIdentity.init();
+
+      // Dacă URL-ul conține token de confirmare, resetare parolă sau invitatie,
+      // deschide widget-ul pentru a procesa aceste acțiuni
+      const hash = window.location.hash;
+
+      if (hash.includes('confirmation_token') || hash.includes('recovery_token') || hash.includes('invite_token')) {
+        netlifyIdentity.open();
+      }
+    } else {
+      console.error('Netlify Identity Widget nu este încărcat!');
     }
-  }
-</script>
+  </script>
 </body>
 </html>
