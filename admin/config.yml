@@ -1,6 +1,9 @@
 backend:
   name: git-gateway
-  branch: creare-site-ahsfy  # pune numele branch-ului tău aici
+  branch: creare-site-ahsfy
+
+site_url: https://ahsfymagazin.netlify.app
+display_url: https://ahsfymagazin.netlify.app
 
 media_folder: "static/img"
 public_folder: "/img"
