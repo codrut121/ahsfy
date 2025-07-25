@@ -1,24 +1,89 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Content Manager</title>
-  </head>
-  <body>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Netlify Identity Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background: #f5f5f5;
+      color: #333;
+    }
+    #status {
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+    button {
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      margin-right: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Netlify Identity Widget Demo</h1>
+  <div id="status">Checking login status...</div>
+  <button id="loginBtn" style="display:none;">Login / Sign Up</button>
+  <button id="logoutBtn" style="display:none;">Logout</button>
 
-    <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-        window.netlifyIdentity.init();
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    const status = document.getElementById('status');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (window.netlifyIdentity) {
+      const netlifyIdentity = window.netlifyIdentity;
+
+      netlifyIdentity.on('init', user => {
+        if (user) {
+          status.textContent = 'Logged in as: ' + user.email;
+          loginBtn.style.display = 'none';
+          logoutBtn.style.display = 'inline-block';
+        } else {
+          status.textContent = 'Not logged in';
+          loginBtn.style.display = 'inline-block';
+          logoutBtn.style.display = 'none';
+        }
+      });
+
+      netlifyIdentity.on('login', user => {
+        status.textContent = 'Logged in as: ' + user.email;
+        loginBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline-block';
+        // redirect to admin page after login
+        window.location.href = '/admin/';
+      });
+
+      netlifyIdentity.on('logout', () => {
+        status.textContent = 'Logged out';
+        loginBtn.style.display = 'inline-block';
+        logoutBtn.style.display = 'none';
+        // redirect home after logout
+        window.location.href = '/';
+      });
+
+      loginBtn.addEventListener('click', () => {
+        netlifyIdentity.open('login');
+      });
+
+      logoutBtn.addEventListener('click', () => {
+        netlifyIdentity.logout();
+      });
+
+      netlifyIdentity.init();
+
+      // If URL contains confirmation/recovery/invite token, open widget automatically
+      const hash = window.location.hash;
+      if (hash.includes('confirmation_token') || hash.includes('recovery_token') || hash.includes('invite_token')) {
+        netlifyIdentity.open();
       }
-    </script>
-  </body>
+    } else {
+      status.textContent = 'Netlify Identity Widget not loaded!';
+      console.error('Netlify Identity Widget nu este încărcat!');
+    }
+  </script>
+</body>
 </html>
