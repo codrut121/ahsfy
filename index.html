@@ -106,5 +106,22 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.hash.slice(1));
+
+  if (params.has("confirmation_token") || params.has("invite_token") || params.has("recovery_token")) {
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            window.location.href = "/admin/";
+          });
+        }
+      });
+      window.netlifyIdentity.init();
+    }
+  }
+</script>
 </body>
 </html>
